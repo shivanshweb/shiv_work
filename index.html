@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shiv Pandey — Data &amp; Business Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #EEEDE6;
+    --surface: #E6E4DA;
+    --text: #201E1A;
+    --text-muted: #6C675C;
+    --accent: #2F5D62;
+    --accent-soft: #DCE6E3;
+    --border: #D6D3C7;
+    --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1916;
+      --surface: #232019;
+      --text: #EDEAE1;
+      --text-muted: #A39D8F;
+      --accent: #74AAAC;
+      --accent-soft: #253634;
+      --border: #37332B;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #1A1916;
+    --surface: #232019;
+    --text: #EDEAE1;
+    --text-muted: #A39D8F;
+    --accent: #74AAAC;
+    --accent-soft: #253634;
+    --border: #37332B;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--text);
+    text-decoration-color: var(--border);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* --- Header --- */
+  header.site-header {
+    position: sticky;
+    top: 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+  }
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .mark {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  nav.site-nav {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+  }
+  nav.site-nav a { text-decoration: none; color: var(--text-muted); }
+  nav.site-nav a:hover { color: var(--accent); }
+
+  /* --- Hero --- */
+  .hero {
+    padding: 4.5rem 0 3rem;
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.1rem;
+    max-width: 15ch;
+    opacity: 0;
+    animation: rise 0.7s ease forwards 0.1s;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero .role {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 46ch;
+    margin: 0 0 1.75rem;
+  }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    font-size: 0.95rem;
+  }
+  .contact-row a { text-decoration: underline; text-decoration-color: var(--border); }
+
+  /* --- Sections --- */
+  section {
+    padding: 3rem 0;
+    border-top: 1px solid var(--border);
+  }
+  section > h2 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+  .prose { max-width: 64ch; }
+  .prose p { margin: 0 0 1.1rem; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  /* --- Experience entries (editorial list) --- */
+  .entry {
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .entry:first-child { border-top: none; padding-top: 0; }
+  .entry-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.35rem;
+  }
+  .entry-head h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.15rem;
+    margin: 0;
+  }
+  .entry-meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .entry-org {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0 0 0.6rem;
+  }
+  .entry-outcome {
+    margin: 0 0 0.4rem;
+    max-width: 64ch;
+  }
+
+  /* --- Project grid (visual tiles, flat & bordered, no shadow/gradient) --- */
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem 1.5rem;
+  }
+  @media (max-width: 620px) {
+    .project-grid { grid-template-columns: 1fr; }
+  }
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .project-visual {
+    aspect-ratio: 5 / 3;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .project-visual svg { display: block; width: 100%; height: 100%; }
+  .project-body { padding: 1rem 1.15rem 1.25rem; }
+  .project-body h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    margin: 0 0 0.45rem;
+  }
+  .project-body .outcome {
+    margin: 0 0 0.5rem;
+    font-size: 0.98rem;
+  }
+  .project-body .stack {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0 0 0.65rem;
+  }
+  .project-body .view-link { font-size: 0.88rem; }
+  .project-note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin: 1.5rem 0 0;
+  }
+
+  /* --- Skills as quiet definition list --- */
+  dl.skills {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 0.9rem 1.5rem;
+  }
+  dl.skills dt {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+  dl.skills dd { margin: 0; }
+  @media (max-width: 560px) {
+    dl.skills { grid-template-columns: 1fr; gap: 0.2rem 0; }
+    dl.skills dt { margin-top: 0.6rem; }
+  }
+
+  /* --- Education --- */
+  .edu-item { margin-bottom: 1.1rem; }
+  .edu-item:last-child { margin-bottom: 0; }
+  .edu-item h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    margin: 0 0 0.15rem;
+  }
+  .edu-item p { margin: 0; font-size: 0.95rem; color: var(--text-muted); }
+
+  /* --- Footer / contact --- */
+  footer {
+    padding: 3rem 0 4rem;
+    border-top: 1px solid var(--border);
+  }
+  footer p.closing { max-width: 56ch; margin: 0 0 1.5rem; }
+  footer .contact-row { margin-bottom: 2rem; }
+  footer .byline { font-size: 0.85rem; color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <span class="mark">Shiv Pandey</span>
+    <nav class="site-nav">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top: none;">
+    <h1>Trained to find the fault behind the symptom.</h1>
+    <p class="role">Data and business analysis, built on a mechanical engineering foundation. Based in Sydney, Australia — open to relocating.</p>
+    <div class="contact-row">
+      <a href="mailto:shivansh23pandey@gmail.com">shivansh23pandey@gmail.com</a>
+      <a href="https://www.linkedin.com/in/shivansh-pandey-2312d/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/shivanshweb" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://public.tableau.com/app/profile/shivansh7419/vizzes" target="_blank" rel="noopener">Tableau</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="prose">
+      <p>I trained as a mechanical engineer before moving into data. The two fields ask the same question in different languages: given a symptom, what's the actual cause? A machine running hot, or a business metric that moved unexpectedly, both reward the same instinct — trace it back through the evidence rather than the first explanation offered.</p>
+      <p>I completed a Master of Data Science and Innovation at the University of Technology Sydney, after a Bachelor of Mechanical Engineering in India. In between and since, I've worked across HR data analysis, front-end development, and a clean-energy startup, building habits that carry over regardless of the domain: check the data before trusting it, write down decisions before you forget why you made them, and keep the explanation short enough that someone outside the room can still follow it.</p>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2>Experience</h2>
+
+    <div class="entry">
+      <div class="entry-head">
+        <h3>HR Data Analyst</h3>
+        <span class="entry-meta">Feb 2022 – Aug 2022</span>
+      </div>
+      <p class="entry-org">Signature Consultants, Noida, India</p>
+      <p class="entry-outcome">Gathered and validated workforce data across multiple client accounts, catching quality issues before they reached reporting.</p>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Front End Developer</h3>
+        <span class="entry-meta">Feb 2021 – Feb 2022</span>
+      </div>
+      <p class="entry-org">MicRohub Technologies, Remote</p>
+      <p class="entry-outcome">Ran ten concurrent client projects at once, translating what clients described into specifications developers could build from.</p>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <h3>Business Analyst Intern</h3>
+        <span class="entry-meta">Jul 2020 – Aug 2020</span>
+      </div>
+      <p class="entry-org">Revolt Energy, Remote</p>
+      <p class="entry-outcome">Worked directly with the CEO and CTO of a clean-energy startup on manufacturing cost and capacity analysis.</p>
+    </div>
+
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 400 240" aria-hidden="true" focusable="false">
+            <line x1="90" y1="120" x2="310" y2="120" stroke="var(--border)" stroke-width="2"/>
+            <circle cx="90" cy="120" r="24" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <circle cx="200" cy="120" r="24" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+            <circle cx="310" cy="120" r="24" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <circle cx="150" cy="86" r="5" fill="var(--accent)"/>
+            <line x1="150" y1="92" x2="150" y2="104" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <h3>ETL Pipeline &amp; Data Quality System</h3>
+          <p class="outcome">Catches bad data before anyone downstream has to find it the hard way.</p>
+          <p class="stack">Python, Snowflake, Azure Blob Storage, SQL — 2.6M records, 37,000 issues caught at intake.</p>
+          <p class="view-link"><a href="https://github.com/shivanshweb/youtube-trending-etl-snowflake" target="_blank" rel="noopener">View the code</a></p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 400 240" aria-hidden="true" focusable="false">
+            <line x1="40" y1="190" x2="360" y2="190" stroke="var(--border)" stroke-width="1.5"/>
+            <polyline points="40,160 110,140 180,150 250,110 320,95" fill="none" stroke="var(--text-muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="40,165 110,148 180,140 250,105 320,92" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-dasharray="6 6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <h3>Customer Behaviour Forecasting</h3>
+          <p class="outcome">Predicts what customers will spend next, well enough to be useful rather than just interesting.</p>
+          <p class="stack">Python, scikit-learn — 75% reduction in prediction error versus baseline.</p>
+          <p class="view-link"><a href="https://github.com/shivanshweb/bank-spending-prediction" target="_blank" rel="noopener">View the code</a></p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 400 240" aria-hidden="true" focusable="false">
+            <line x1="40" y1="190" x2="360" y2="190" stroke="var(--border)" stroke-width="1.5"/>
+            <rect x="60" y="130" width="34" height="60" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <rect x="120" y="110" width="34" height="80" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <rect x="180" y="95" width="34" height="95" fill="var(--accent)"/>
+            <rect x="240" y="120" width="34" height="70" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <rect x="300" y="135" width="34" height="55" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <polygon points="197,78 191,88 203,88" fill="var(--accent)"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <h3>Model Benchmarking for Decision Support</h3>
+          <p class="outcome">Compares models honestly, rather than picking the one with the best headline number.</p>
+          <p class="stack">Five classification approaches benchmarked on precision, recall, ROC AUC — 99.17% accuracy selected.</p>
+          <p class="view-link"><a href="https://github.com/shivanshweb/classification-for-car-reseller-company" target="_blank" rel="noopener">View the code</a></p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 400 240" aria-hidden="true" focusable="false">
+            <circle cx="110" cy="100" r="34" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="150" cy="140" r="20" fill="none" stroke="var(--accent)" stroke-width="2"/>
+            <circle cx="260" cy="150" r="26" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <circle cx="300" cy="110" r="16" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <circle cx="230" cy="90" r="12" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <h3>Audience Theme Analysis</h3>
+          <p class="outcome">Read hundreds of radio transcripts so a client didn't have to, and found the patterns underneath.</p>
+          <p class="stack">Python, NLTK, TF-IDF, LDA topic modelling — applied to Australian talkback transcripts.</p>
+          <p class="view-link"><a href="https://github.com/shivanshweb/nlp-radio-talkback-analysis" target="_blank" rel="noopener">View the code</a></p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 400 240" aria-hidden="true" focusable="false">
+            <line x1="30" y1="190" x2="370" y2="190" stroke="var(--border)" stroke-width="1.5"/>
+            <rect x="50" y="140" width="24" height="50" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <rect x="80" y="120" width="24" height="70" fill="var(--accent)"/>
+            <rect x="160" y="150" width="24" height="40" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <rect x="190" y="100" width="24" height="90" fill="var(--accent)"/>
+            <rect x="270" y="135" width="24" height="55" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+            <rect x="300" y="128" width="24" height="62" fill="none" stroke="var(--text-muted)" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <h3>Retail Segmentation &amp; Store Testing</h3>
+          <p class="outcome">Worked out which store layout actually changed customer behaviour, not just which one looked better.</p>
+          <p class="stack">Quantium simulation — 72,637 customers, 264,836 transactions, 272 stores, controlled store-layout trial.</p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-visual">
+          <svg viewBox="0 0 400 240" aria-hidden="true" focusable="false">
+            <line x1="40" y1="150" x2="360" y2="130" stroke="var(--border)" stroke-width="1.5"/>
+            <circle cx="70" cy="146" r="5" fill="var(--text-muted)"/>
+            <circle cx="110" cy="142" r="5" fill="var(--text-muted)"/>
+            <circle cx="150" cy="140" r="5" fill="var(--text-muted)"/>
+            <circle cx="200" cy="136" r="5" fill="var(--text-muted)"/>
+            <circle cx="250" cy="134" r="5" fill="var(--text-muted)"/>
+            <circle cx="290" cy="132" r="5" fill="var(--text-muted)"/>
+            <circle cx="330" cy="130" r="5" fill="var(--text-muted)"/>
+            <circle cx="180" cy="78" r="7" fill="var(--accent)"/>
+            <circle cx="270" cy="186" r="7" fill="var(--accent)"/>
+          </svg>
+        </div>
+        <div class="project-body">
+          <h3>Freight Cost Anomaly Detection &amp; Carrier Pricing Analysis</h3>
+          <p class="outcome">Flagged which freight invoices were worth checking before anyone paid them.</p>
+          <p class="stack">Excel, Tableau — 2,000 shipments analysed, 280 flagged as anomalies (14%), seven carriers compared.</p>
+        </div>
+      </div>
+
+    </div>
+    <p class="project-note">Visuals above are placeholder diagrams, not real screenshots — swap in charts or dashboard captures as they become available.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <dl class="skills">
+      <dt>Data &amp; engineering</dt>
+      <dd>Python, SQL, Snowflake, Azure, dbt (in progress), Microsoft Fabric (in progress)</dd>
+
+      <dt>Analysis &amp; modelling</dt>
+      <dd>Predictive modelling, classification, NLP, A/B testing, statistical testing</dd>
+
+      <dt>Business analysis</dt>
+      <dd>Requirements gathering, process mapping, stakeholder communication, documentation</dd>
+
+      <dt>Visualisation</dt>
+      <dd>Power BI, Tableau</dd>
+    </dl>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <div class="edu-item">
+      <h3>Master of Data Science and Innovation</h3>
+      <p>University of Technology Sydney, 2023–2025 · WAM 81.14</p>
+    </div>
+    <div class="edu-item">
+      <h3>Bachelor of Mechanical Engineering</h3>
+      <p>Manipal University Jaipur, 2015–2020</p>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <p class="closing">I'm currently looking for data and business analyst roles in Sydney, and open to relocating within Australia. If something here is relevant to what you're hiring for, I'd like to hear from you.</p>
+    <div class="contact-row">
+      <a href="mailto:shivansh23pandey@gmail.com">shivansh23pandey@gmail.com</a>
+      <a href="https://www.linkedin.com/in/shivansh-pandey-2312d/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/shivanshweb" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://public.tableau.com/app/profile/shivansh7419/vizzes" target="_blank" rel="noopener">Tableau</a>
+    </div>
+    <p class="byline">Shiv Pandey — Sydney, Australia</p>
+  </div>
+</footer>
+
+</body>
+</html>
